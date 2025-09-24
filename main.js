@@ -1,71 +1,87 @@
-// File: main.js
-const promptInput = document.getElementById('prompt-input');
+// DOM Elements
+const networkRadios = document.querySelectorAll('input[name="network"]');
+const openaiSettings = document.getElementById('openai-settings');
+const geminiSettings = document.getElementById('gemini-settings');
+const openaiApiKeyInput = document.getElementById('openai-api-key');
+const geminiApiKeyInput = document.getElementById('gemini-api-key');
+const validateOpenaiBtn = document.getElementById('validate-openai-btn');
+const validateGeminiBtn = document.getElementById('validate-gemini-btn');
+const openaiStatus = document.getElementById('openai-status');
+const geminiStatus = document.getElementById('gemini-status');
+const openaiModelSelector = document.getElementById('openai-model-selector');
+const geminiModelSelector = document.getElementById('gemini-model-selector');
 const generateBtn = document.getElementById('generate-btn');
-const resultContainer = document.getElementById('result-container');
-let pollingInterval;
+// App State
+let currentNetwork = null;
+let apiKeyValid = false;
 
-// Функция для проверки статуса
-const checkStatus = async (hash) => {
-  try {
-    const response = await fetch(`/api/status?hash=${hash}`);
-    const data = await response.json();
+// --- Functions ---
 
-    if (data.status === 'done') {
-      clearInterval(pollingInterval);
-      resultContainer.innerHTML = `<img src="${data.result.url}" alt="Generated image">`;
-      generateBtn.disabled = false;
-    } else if (data.status === 'error') {
-      clearInterval(pollingInterval);
-      resultContainer.innerHTML = `<div class="placeholder">Ошибка: ${data.status_reason}</div>`;
-      generateBtn.disabled = false;
-    } else {
-      // Показываем прогресс, если он есть
-      const progressText = data.progress ? `Прогресс: ${data.progress}%` : 'Задача в очереди...';
-      resultContainer.innerHTML = `<div class="placeholder">${progressText}</div>`;
-    }
-  } catch (error) {
-    clearInterval(pollingInterval);
-    resultContainer.innerHTML = `<div class="placeholder">Ошибка проверки статуса.</div>`;
-    generateBtn.disabled = false;
-    console.error(error);
-  }
-};
+function updateUI() {
+openaiSettings.classList.toggle('hidden', currentNetwork !== 'openai');
+geminiSettings.classList.toggle('hidden', currentNetwork !== 'gemini');
 
-// Функция для старта генерации
-const startGeneration = async () => {
-  if (pollingInterval) clearInterval(pollingInterval);
+// Disable generate button if key is not validated
+generateBtn.disabled = !apiKeyValid;
+}
 
-  const prompt = promptInput.value;
-  if (!prompt) {
-    alert('Введите промт!');
+async function validateApiKey(network) {
+const input = network === 'openai' ? openaiApiKeyInput : geminiApiKeyInput;
+const statusIndicator = network === 'openai' ? openaiStatus : geminiStatus;
+const modelSelector = network === 'openai' ? openaiModelSelector : geminiModelSelector;
+const apiKey = input.value;
+
+if (!apiKey) {
+    alert('Пожалуйста, введите API ключ.');
     return;
-  }
-
-  generateBtn.disabled = true;
-  resultContainer.innerHTML = '<div class="placeholder">Отправка запроса...</div>';
-
-  try {
-    const response = await fetch('/api/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt }),
+}
+// Reset status
+statusIndicator.className = 'status-indicator';
+modelSelector.classList.add('hidden');
+apiKeyValid = false;
+updateUI();
+try {
+    const response = await fetch('/api/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ network, apiKey }),
     });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.message || 'Ошибка API');
+    if (response.ok) {
+        statusIndicator.classList.add('valid');
+        modelSelector.classList.remove('hidden');
+        apiKeyValid = true;
+    } else {
+        statusIndicator.classList.add('invalid');
+        apiKeyValid = false;
     }
-    const { hash } = data;
-    resultContainer.innerHTML = `<div class="placeholder">Задача принята. Ожидание результата...</div>`;
-    // Запускаем проверку статуса каждые 5 секунд
-    pollingInterval = setInterval(() => checkStatus(hash), 5000);
-    checkStatus(hash); // Проверяем сразу же первый раз
+} catch (error) {
+    console.error('Validation error:', error);
+    statusIndicator.classList.add('invalid');
+    apiKeyValid = false;
+}
+updateUI();
+}
 
-  } catch (error) {
-    resultContainer.innerHTML = `<div class="placeholder">Ошибка: ${error.message}</div>`;
-    generateBtn.disabled = false;
-    console.error(error);
-  }
-};
+// --- Event Listeners ---
 
-generateBtn.addEventListener('click', startGeneration);
+networkRadios.forEach(radio => {
+radio.addEventListener('change', (event) => {
+currentNetwork = event.target.value;
+apiKeyValid = false; // Reset validation on network change
+openaiStatus.className = 'status-indicator';
+geminiStatus.className = 'status-indicator';
+openaiModelSelector.classList.add('hidden');
+geminiModelSelector.classList.add('hidden');
+updateUI();
+});
+});
+
+validateOpenaiBtn.addEventListener('click', () => validateApiKey('openai'));
+validateGeminiBtn.addEventListener('click', () => validateApiKey('gemini'));
+
+// Placeholder for the actual generation logic
+generateBtn.addEventListener('click', () => {
+alert('Логика генерации будет добавлена на следующем шаге!');
+// Here you would collect the prompt, selected model, and API key
+// and send it to a new serverless function like '/api/generate-text'.
+});
