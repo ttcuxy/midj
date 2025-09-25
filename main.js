@@ -1,3 +1,5 @@
+console.log("main.js успешно запущен");
+
 // DOM Elements
 const networkRadios = document.querySelectorAll('input[name="network"]');
 const openaiSettings = document.getElementById('openai-settings');
