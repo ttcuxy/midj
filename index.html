@@ -3,105 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Генератор промтов для Midjourney</title>
+    <title>Midjourney API Tester</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="app-container">
-        <header class="app-header">
-            <h1>Генератор промтов для Midjourney</h1>
-            <p>Создавайте и генерируйте идеальные изображения с помощью AI</p>
-        </header>
-        <div class="app-layout">
-            <aside class="sidebar">
-                <h2>Настройки</h2>
-                
-                <div class="setting-group">
-                    <label>1. Выберите нейросеть</label>
-                    <div class="radio-group">
-                        <input type="radio" id="net-openai" name="network" value="openai">
-                        <label for="net-openai">OpenAI</label>
-                        <input type="radio" id="net-gemini" name="network" value="gemini">
-                        <label for="net-gemini">Gemini</label>
-                    </div>
-                </div>
-                <div id="openai-settings" class="network-settings hidden">
-                    <div class="setting-group">
-                        <label for="openai-api-key">2. Введите API ключ OpenAI</label>
-                        <div class="api-key-input-group">
-                            <input type="password" id="openai-api-key" placeholder="sk-...">
-                            <button id="validate-openai-btn">✓</button>
-                            <div id="openai-status" class="status-indicator"></div>
-                        </div>
-                    </div>
-                    <div id="openai-model-selector" class="setting-group hidden">
-                        <label for="openai-model">3. Выберите модель</label>
-                        <select id="openai-model">
-                            <option value="gpt-5">gpt 5</option>
-                            <option value="gpt-5-mini">gpt-5-mini</option>
-                            <option value="o4-mini">o4-mini</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="gemini-settings" class="network-settings hidden">
-                    <div class="setting-group">
-                        <label for="gemini-api-key">2. Введите API ключ Gemini</label>
-                        <div class="api-key-input-group">
-                            <input type="password" id="gemini-api-key" placeholder="AIzaSy...">
-                            <button id="validate-gemini-btn">✓</button>
-                            <div id="gemini-status" class="status-indicator"></div>
-                        </div>
-                    </div>
-                    <div id="gemini-model-selector" class="setting-group hidden">
-                        <label for="gemini-model">3. Выберите модель</label>
-                        <select id="gemini-model">
-                            <option value="gemini-2.5-flash">flash 2.5</option>
-                            <option value="gemini-2.5-pro">pro 2.5</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="setting-group">
-                    <label class="group-title">Системный промт</label>
-                    <textarea id="system-prompt" rows="8">Твоя задача — действовать как эксперт по созданию коммерчески успешных изображений для фотостока Adobe Stock с помощью нейросети Midjourney. Твоя роль: 1. Я загружаю тебе изображение. 2. Ты анализируешь его, чтобы понять основную суть: главный объект, его действия, окружение и общую атмосферу. 3. Твоя задача — создать на основе этого анализа детализированный, богатый и креативный промт для Midjourney на английском языке. Промт должен начинаться с /imagine prompt:. 4. Промт должен быть сфокусирован на визуальных деталях, стиле, освещении, композиции и эмоциях, чтобы Midjourney мог сгенерировать коммерчески привлекательное изображение.</textarea>
-                </div>
-                 <div class="setting-group">
-                    <textarea id="prompt-input" rows="10" placeholder="Введите ваш запрос здесь..."></textarea>
-                    <button id="generate-btn" disabled>Сгенерировать</button>
-                </div>
-                <div class="setting-group">
-                    <button id="test-midjourney-btn">Тест Midjourney</button>
-                </div>
-            </aside>
-            <main class="main-content">
-                <div class="main-header">
-                    <h1>Результаты</h1>
-                    <div class="header-actions">
-                        <button id="export-results">Экспорт</button>
-                        <button id="clear-results">Очистить</button>
-                    </div>
-                </div>
-                <div class="results-table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Промт</th>
-                                <th>Результат</th>
-                                <th>Статус</th>
-                                <th>Действия</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Результаты будут добавляться сюда -->
-                        </tbody>
-                    </table>
-                </div>
-            </main>
+    <main class="container">
+        <h1>Генератор изображений</h1>
+        <p>Тестирование API Midjourney через userapi.ai</p>
+        <div class="form-group">
+            <textarea id="prompt-input" rows="3">a dog lying on a cozy couch</textarea>
+            <button id="generate-btn">Сгенерировать</button>
         </div>
-    </div>
-    <script type="module" src="main.js"></script>
+        <div id="result-container">
+            <div class="placeholder">Здесь появится ваше изображение...</div>
+        </div>
+    </main>
+    <script src="main.js"></script>
 </body>
 </html>
