@@ -64,12 +64,14 @@ cursor: pointer;
 font-size: 1rem;
 }
 
-select {
+select, textarea {
 width: 100%;
 padding: 8px 12px;
 border: 1px solid #ced4da;
 border-radius: 6px;
 font-size: 0.9rem;
+box-sizing: border-box;
+font-family: 'Inter', sans-serif;
 }
 
 .status-indicator {
@@ -115,7 +117,7 @@ box-sizing: border-box;
 
 #generate-btn {
 display: block;
-width: 200px;
+width: 100%;
 padding: 14px;
 margin-top: 1rem;
 border: none;
@@ -146,4 +148,101 @@ overflow-y: auto;
 
 .hidden {
 display: none;
+}
+
+/* New Styles */
+.app-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+.app-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #dee2e6;
+    background-color: #ffffff;
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 1.75rem;
+}
+
+.app-header p {
+    margin: 0.25rem 0 0;
+    color: #6c757d;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.header-actions button {
+    padding: 8px 16px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.header-actions button:hover {
+    background-color: #e9ecef;
+}
+
+.results-table-wrapper {
+    flex-grow: 1;
+    overflow: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+    vertical-align: top;
+}
+
+thead th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+tbody tr:nth-of-type(even) {
+    background-color: #f8f9fa;
+}
+
+tbody tr:hover {
+    background-color: #f1f3f5;
+}
+
+td:nth-child(1) { width: 5%; }
+td:nth-child(2) { width: 35%; }
+td:nth-child(3) { width: 35%; }
+td:nth-child(4) { width: 10%; }
+td:nth-child(5) { width: 15%; }
+
+td {
+    word-break: break-word;
 }

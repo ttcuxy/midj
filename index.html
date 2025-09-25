@@ -67,22 +67,41 @@
                     <label class="group-title">Системный промт</label>
                     <textarea id="system-prompt" rows="8">Твоя задача — действовать как эксперт по созданию коммерчески успешных изображений для фотостока Adobe Stock с помощью нейросети Midjourney. Твоя роль: 1. Я загружаю тебе изображение. 2. Ты анализируешь его, чтобы понять основную суть: главный объект, его действия, окружение и общую атмосферу. 3. Твоя задача — создать на основе этого анализа детализированный, богатый и креативный промт для Midjourney на английском языке. Промт должен начинаться с /imagine prompt:. 4. Промт должен быть сфокусирован на визуальных деталях, стиле, освещении, композиции и эмоциях, чтобы Midjourney мог сгенерировать коммерчески привлекательное изображение.</textarea>
                 </div>
+                 <div class="setting-group">
+                    <textarea id="prompt-input" rows="10" placeholder="Введите ваш запрос здесь..."></textarea>
+                    <button id="generate-btn" disabled>Сгенерировать</button>
+                </div>
                 <div class="setting-group">
                     <button id="test-midjourney-btn">Тест Midjourney</button>
                 </div>
             </aside>
             <main class="main-content">
-                <h1>Генератор Ответов</h1>
-                <div class="form-group">
-                    <textarea id="prompt-input" rows="10" placeholder="Введите ваш запрос здесь..."></textarea>
-                    <button id="generate-btn" disabled>Сгенерировать</button>
+                <div class="main-header">
+                    <h1>Результаты</h1>
+                    <div class="header-actions">
+                        <button id="export-results">Экспорт</button>
+                        <button id="clear-results">Очистить</button>
+                    </div>
                 </div>
-                <div id="result-container">
-                    <div class="placeholder">Здесь появится ответ от нейросети...</div>
+                <div class="results-table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Промт</th>
+                                <th>Результат</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Результаты будут добавляться сюда -->
+                        </tbody>
+                    </table>
                 </div>
             </main>
         </div>
     </div>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/main.js"></script>
 </body>
 </html>
